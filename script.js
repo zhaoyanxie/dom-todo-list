@@ -8,22 +8,31 @@ const tasks = [
 	'give feedback',
 ];
 
-//For each todo in the tasks array, append it to the <ul id='todo-list'></ul> element
-tasks.forEach(task => {
+// function to add a task to the ul 
+const createTask = task => {
 	// Create html li element
-	let elementLi = document.createElement('li');
-	
-	// Change the textContent of the newly created element
-	elementLi.textContent = task;
-	
-	// Append each child li to the ul #todo-list
-	todo.appendChild(elementLi);
+	let li = document.createElement('li'); // const works as well.....
+	const span = document.createElement('span'); // Create a span for deletion
 
-	// Add a click listener to toggle .done class when clicked 
-	elementLi.addEventListener('click', () => {
-		elementLi.classList.toggle('done');
+	li.textContent = task; // Change the textContent of the newly created element
+	todo.appendChild(li); // Append each child li to the ul #todo-list
+
+	span.textContent = 'X'; // Change the textContent of the newly created span
+	li.appendChild(span); // Append span to each li
+
+	// Add a click listener to toggle .done class when clicked,
+	li.addEventListener('click', () => {
+		li.classList.toggle('done'); 
 	});
-});
+
+	// Add a click listener to hide display when X is clicked;
+	span.addEventListener('click', () => {
+		li.style.display = 'none'; 
+	});
+}
+
+//For each todo in the tasks array, append it to the <ul id='todo-list'></ul> element
+tasks.forEach(createTask);
 
 // Add a `<input>` HTML element 
 const elementInput = document.createElement('input');
@@ -31,25 +40,25 @@ document.body.insertBefore(elementInput, ul)
 elementInput.placeholder = "Enter task here...";
 
 // Add a `<button>Add Todo</button>` HTML element.
-const elementBtn = document.createElement('button');
-elementBtn.textContent = "Add Task";
-document.body.insertBefore(elementBtn, ul);
+const button = document.createElement('button');
+button.textContent = "Add Task";
+document.body.insertBefore(button, ul);
+
+
 
 // add a click event listener to the button
-elementBtn.addEventListener('click', () => {
-	// create li element
-	let elementLi = document.createElement('li');
-	// push the value into the array
-	tasks.push(document.querySelector('input').value);
-	// change the textContent of the li
-	elementLi.textContent = tasks[tasks.length - 1];
-	// appendChild to ul#todo-list
-	document.todo.appendChild(elementLi);
-	// Add a click listener to toggle .done class when clicked 
-	elementLi.addEventListener('click', () => {
-		elementLi.classList.toggle('done');
-	});
-	// clear the contents of the input
-	document.querySelector('input').value = "";
+button.addEventListener('click', () => {
+	const input = document.querySelector('input');
+
+	if (input.value !== '') {
+		tasks.push(input.value); // push the value into the array
+		createTask(tasks[tasks.length - 1]); // call function to add task
+		input.value = ""; // clear the contents of the input
+	}
+	
 });
+
+
+
+
 
