@@ -17,9 +17,10 @@ const createTask = task => {
 	li.textContent = task; // Change the textContent of the newly created element
 	todo.appendChild(li); // Append each child li to the ul #todo-list
 
-	span.textContent = 'X'; // Change the textContent of the newly created span
+	// span.textContent = 'X'; // Change the textContent of the newly created span
+	span.className = "far fa-trash-alt"; // awesome bin in place of X!
 	li.appendChild(span); // Append span to each li
-
+	
 	// Add a click listener to toggle .done class when clicked,
 	li.addEventListener('click', () => {
 		li.classList.toggle('done'); 
@@ -27,7 +28,9 @@ const createTask = task => {
 
 	// Add a click listener to hide display when X is clicked;
 	span.addEventListener('click', () => {
-		li.style.display = 'none'; 
+		const confirm = window.confirm("Are you sure?");
+		if (confirm) li.style.display = 'none'; 
+		else li.classList.toggle('done');
 	});
 }
 
@@ -43,8 +46,6 @@ elementInput.placeholder = "Enter task here...";
 const button = document.createElement('button');
 button.textContent = "Add Task";
 document.body.insertBefore(button, ul);
-
-
 
 // add a click event listener to the button
 button.addEventListener('click', () => {
